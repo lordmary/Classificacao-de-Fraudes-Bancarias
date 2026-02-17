@@ -26,23 +26,23 @@ Shuffle (Embaralhamento): Aplicado apenas no Treino para o modelo não viciar na
 LabelEncoder organiza as palavras por ordem alfabética antes de atribuir os números, 
 eu processei a base para extrair exatamente qual número cada categoria virou.
 
-Aqui está o mapeamento completo das colunas mais importantes que mudamos:
+mapeamento completo das colunas mais importantes que mudamos:
 
 device_os (Sistema Operacional)
-Esta é a coluna que você mais vai usar para explicar o perfil técnico do fraudador.
 0 = linux
-1 = macos
+1 = macintosh
 2 = other (outros)
 3 = windows
 4 = x11
 
 housing_status (Situação de Moradia)
-O dataset usa códigos de duas letras. O mapeamento ficou assim:
 0 = BA (Proprietário)
 1 = BB (Aluguel)
 2 = BC (Moradia com pais/parentes)
 3 = BD (Cedido/Emprestado)
 4 = BE (Outros)
+5 = BF (Categoria adicional detectada na base total)
+6 = BG (Categoria adicional detectada na base total)
 
 source (Origem da Proposta)
 0 = INTERNET
@@ -54,11 +54,13 @@ employment_status (Status de Emprego)
 2 = CC (Estudante)
 3 = CD (Aposentado)
 4 = CE (Desempregado)
+5 = CF (Categoria adicional detectada na base total)
+6 = CG (Categoria adicional detectada na base total)
 
 payment_type (Tipo de Pagamento)
-Os códigos variam de AA a AE:
 0 = AA (Pagamento padrão/total)
 1 = AB (Parcelado/Crédito)
 2 = AC (Via terceiros)
 3 = AD (Transferências/Alternativos)
 4 = AE (Transferências/Alternativos)
+
