@@ -17,6 +17,11 @@ Arquivos gerados:
   teste.csv               — teste intacto (meses 6-7), nunca modificado
   treino_balanceado.csv   — treino com SMOTE aplicado, pronto para Fase 3
   resultado_selecao_atributos.csv — ranking completo para o relatório
+
+Fase 3 (treinamento):
+  modelo_rf.pkl           — Random Forest treinado
+  modelo_xgb.pkl          — XGBoost treinado
+  resultado_modelos.csv   — comparativo de métricas dos dois modelos
 """
 
 import time
@@ -25,6 +30,7 @@ import time
 from pre_processamento import carregar_e_limpar, dividir_e_salvar
 from selecao_atributos  import selecionar
 from balanceamento       import balancear
+from treinamento         import treinar_e_avaliar
 
 SEP = "=" * 65
 
@@ -64,25 +70,35 @@ def main():
 
     # ── ETAPA 4: SMOTE ──────────────────────────────────────────────────────
     print(f"\n{'─'*65}")
-    print("  ETAPA 4/4 — Balanceamento de Classes (SMOTE)")
+    print("  ETAPA 4/5 — Balanceamento de Classes (SMOTE)")
     print(f"{'─'*65}")
     t0 = time.time()
     df_balanceado = balancear(df_treino)
     print(f"  [OK] Concluído em {time.time()-t0:.1f}s")
 
+    # ── ETAPA 5: Treinamento ────────────────────────────────────────────────
+    print(f"\n{'─'*65}")
+    print("  ETAPA 5/5 — Treinamento e Avaliação (RF vs. XGBoost)")
+    print(f"{'─'*65}")
+    t0 = time.time()
+    resultados_modelos = treinar_e_avaliar()
+    print(f"  [OK] Concluído em {time.time()-t0:.1f}s")
+
     # ── Resumo final ────────────────────────────────────────────────────────
     tempo_total = time.time() - inicio_total
     print(f"\n{SEP}")
-    print("  FASE 2 CONCLUÍDA — RESUMO")
+    print("  PIPELINE COMPLETO (FASES 2 + 3) — RESUMO")
     print(SEP)
     print(f"  Colunas removidas         : {len(colunas_remover)} {colunas_remover}")
     print(f"  Colunas no modelo final   : {df_treino.shape[1]}")
     print(f"  Treino original           : {df_treino.shape[0]:,} linhas")
     print(f"  Treino balanceado (SMOTE) : {df_balanceado.shape[0]:,} linhas")
     print(f"  Teste (intacto)           : {df_teste.shape[0]:,} linhas")
+    for nome, res in resultados_modelos.items():
+        print(f"  {nome:<20}: AUC-ROC={res['auc_roc']:.4f}  AUC-PR={res['auc_pr']:.4f}  F1={res['f1']:.4f}")
     print(f"  Tempo total               : {tempo_total/60:.1f} min")
     print(SEP)
-    print("\n  Próximo passo: Fase 3 → treinar Random Forest vs. XGBoost")
+    print("\n  Próximo passo: Fase 4 → ajuste de threshold + SHAP (explicabilidade)")
     print(f"{SEP}\n")
 
 
