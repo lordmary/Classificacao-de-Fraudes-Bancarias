@@ -23,6 +23,8 @@ import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import matplotlib
+import os
+
 matplotlib.use('Agg')  # sem janela — salva direto em arquivo
 import warnings
 warnings.filterwarnings('ignore')
@@ -42,12 +44,17 @@ except ImportError:
     print("[AVISO] shap não instalado. Execute: pip install shap")
 
 # ── Caminhos ─────────────────────────────────────────────────────────────────
-BASE = r'\storage\banco\Classificacao-de-Fraudes-Bancarias'
+BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas')
+
+RESULTADOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resultados')
+
+RELATORIO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'relatorio')
+os.makedirs(RELATORIO, exist_ok=True)
 
 CAMINHO_TESTE      = rf'{BASE}\teste.csv'
-CAMINHO_RF         = rf'{BASE}\modelo_rf.pkl'
-CAMINHO_XGB        = rf'{BASE}\modelo_xgb.pkl'
-CAMINHO_THRESHOLD  = rf'{BASE}\resultado_threshold.csv'
+CAMINHO_RF         = rf'{RESULTADOS}\modelo_rf.pkl'
+CAMINHO_XGB        = rf'{RESULTADOS}\modelo_xgb.pkl'
+CAMINHO_THRESHOLD  = rf'{RESULTADOS}\resultado_threshold.csv'
 
 TARGET = 'fraud_bool'
 SEP    = "=" * 65
@@ -108,7 +115,7 @@ def _ajuste_threshold(nome, y_teste, y_prob):
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     nome_arquivo = nome.lower().replace(' ', '_')
-    plt.savefig(rf'{BASE}\grafico_threshold_{nome_arquivo}.png', dpi=150)
+    plt.savefig(rf'{RELATORIO}\grafico_threshold_{nome_arquivo}.png', dpi=150)
     plt.close()
     print(f"  [OK] grafico_threshold_{nome_arquivo}.png salvo")
 
@@ -130,7 +137,7 @@ def _grafico_roc(modelos_prob, y_teste):
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(rf'{BASE}\grafico_roc.png', dpi=150)
+    plt.savefig(rf'{RELATORIO}\grafico_roc.png', dpi=150)
     plt.close()
     print("[OK] grafico_roc.png salvo")
 
@@ -152,7 +159,7 @@ def _grafico_pr(modelos_prob, y_teste):
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(rf'{BASE}\grafico_pr.png', dpi=150)
+    plt.savefig(rf'{RELATORIO}\grafico_pr.png', dpi=150)
     plt.close()
     print("[OK] grafico_pr.png salvo")
 
@@ -186,7 +193,7 @@ def _grafico_matriz(nome, y_teste, y_pred):
 
     plt.tight_layout()
     nome_arquivo = nome.lower().replace(' ', '_')
-    plt.savefig(rf'{BASE}\grafico_matriz_confusao_{nome_arquivo}.png', dpi=150)
+    plt.savefig(rf'{RELATORIO}\grafico_matriz_confusao_{nome_arquivo}.png', dpi=150)
     plt.close()
     print(f"[OK] grafico_matriz_confusao_{nome_arquivo}.png salvo")
 
@@ -210,7 +217,7 @@ def _grafico_importancia(nome, modelo, features, top_n=20):
 
     plt.tight_layout()
     nome_arquivo = nome.lower().replace(' ', '_')
-    plt.savefig(rf'{BASE}\grafico_importancia_{nome_arquivo}.png', dpi=150)
+    plt.savefig(rf'{RELATORIO}\grafico_importancia_{nome_arquivo}.png', dpi=150)
     plt.close()
     print(f"[OK] grafico_importancia_{nome_arquivo}.png salvo")
 
@@ -242,7 +249,7 @@ def _grafico_shap(nome, modelo, X_teste, features, n_amostras=2000):
     plt.title(f'SHAP — {nome}')
     plt.tight_layout()
     nome_arquivo = nome.lower().replace(' ', '_')
-    plt.savefig(rf'{BASE}\grafico_shap_{nome_arquivo}.png',
+    plt.savefig(rf'{RELATORIO}\grafico_shap_{nome_arquivo}.png',
                 dpi=150, bbox_inches='tight')
     plt.close()
     print(f"[OK] grafico_shap_{nome_arquivo}.png salvo")

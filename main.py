@@ -61,6 +61,7 @@ def main():
     print(f"\n  [OK] Colunas a remover: {colunas_remover}")
     print(f"  [OK] Concluído em {time.time()-t0:.1f}s")
 
+
     # ── ETAPA 3: Remover colunas + dividir + salvar ─────────────────────────
     print(f"\n{'─'*65}")
     print("  ETAPA 3/4 — Remover colunas irrelevantes e salvar treino/teste")

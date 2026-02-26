@@ -16,10 +16,12 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import VarianceThreshold
 import warnings
+import os
 warnings.filterwarnings('ignore')
-
-CAMINHO_RESULTADO = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\resultado_selecao_atributos.csv'
-
+BASE          = os.path.dirname(os.path.abspath(__file__))
+SAIDAS    = os.path.join(BASE, 'saidas')
+os.makedirs(SAIDAS, exist_ok=True)
+CAMINHO_RESULTADO = os.path.join(SAIDAS, 'resultado_selecao_atributos.csv')
 
 def selecionar(df_treino):
     """
@@ -130,8 +132,6 @@ def selecionar(df_treino):
 
 # ── Execução direta (sem pipeline) ──────────────────────────────────────────
 if __name__ == '__main__':
-    import sys
-    sys.path.insert(0, r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias')
     from pre_processamento import carregar_e_limpar
     print("AVISO: executando seleção isolada. Para o pipeline, use: python main.py\n")
     df, serie_month = carregar_e_limpar()
