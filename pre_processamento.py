@@ -18,7 +18,7 @@ import os
 import glob
 import zipfile
 
-CAMINHO_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base\\Base.csv')
+CAMINHO_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Base.csv')
 CAMINHO_SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas')
 
 def extrair_base_csv():
@@ -35,7 +35,7 @@ def extrair_base_csv():
             if base_csv:
                 # Extrai somente o Base.csv, direto na raiz do projeto
                 nome_interno = base_csv[0]
-                with z.open(nome_interno) as src, open("base/Base.csv", "wb") as dst:
+                with z.open(nome_interno) as src, open("Base.csv", "wb") as dst:
                     dst.write(src.read())
                 print(f"  [OK] Base.csv extraído de '{zip_path}'")
                 return
