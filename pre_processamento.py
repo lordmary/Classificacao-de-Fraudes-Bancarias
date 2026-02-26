@@ -15,10 +15,32 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
 import os
+import glob
+import zipfile
 
-CAMINHO_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base\Base.csv')
+CAMINHO_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base\\Base.csv')
 CAMINHO_SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas')
 
+def extrair_base_csv():
+    """Procura qualquer .zip no diretório atual e extrai apenas o Base.csv"""
+    zips = glob.glob("base/*.zip")
+    if not zips:
+        print("  [AVISO] Nenhum arquivo .zip encontrado no diretório atual.")
+        return
+
+    for zip_path in zips:
+        with zipfile.ZipFile(zip_path, 'r') as z:
+            arquivos = z.namelist()
+            base_csv = [f for f in arquivos if os.path.basename(f) == "Base.csv"]
+            if base_csv:
+                # Extrai somente o Base.csv, direto na raiz do projeto
+                nome_interno = base_csv[0]
+                with z.open(nome_interno) as src, open("base/Base.csv", "wb") as dst:
+                    dst.write(src.read())
+                print(f"  [OK] Base.csv extraído de '{zip_path}'")
+                return
+
+    print("  [AVISO] Nenhum Base.csv encontrado dentro dos ZIPs.")
 
 def carregar_e_limpar(caminho=CAMINHO_BASE):
     """
@@ -28,6 +50,7 @@ def carregar_e_limpar(caminho=CAMINHO_BASE):
       serie_month — série preservada para a divisão treino/teste
     """
     print("[PRÉ-PROCESSAMENTO] Lendo Base.csv... (aguarde)")
+    extrair_base_csv()
     df = pd.read_csv(caminho)
 
     # Preservar 'month' antes de qualquer transformação
