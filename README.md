@@ -144,11 +144,26 @@ O pipeline completo (Fases 2, 3 e 4) roda em sequência. O tempo total varia de 
 ### Random Forest
 | Parâmetro | Valor | Justificativa |
 |---|---|---|
-| `n_estimators` | 300 | Plateau de AUC-PR verificado empiricamente via `warm_start` |
+| `n_estimators` | **300** | Melhor AUC-PR verificado empiricamente via `warm_start` (ver tabela abaixo) |
 | `max_depth` | 15 | Limita overfitting mantendo capacidade de capturar padrões complexos |
 | `min_samples_leaf` | 10 | Evita folhas com muito poucos exemplos |
 | `class_weight` | `balanced` | Compensa o desbalanceamento residual após SMOTE |
 | `n_jobs` | -1 | Usa todos os núcleos disponíveis |
+
+**Validação do `n_estimators` via `warm_start`** — árvores adicionadas em passos de 50, parada quando AUC-PR não melhora por 2 passos consecutivos:
+
+| n_estimators | AUC-PR | AUC-ROC |
+|:---:|:---:|:---:|
+| 50 | 0.0915 | 0.8356 |
+| 100 | 0.0919 | 0.8363 |
+| 150 | 0.0915 | 0.8371 |
+| 200 | 0.0922 | 0.8373 |
+| 250 | 0.0926 | 0.8376 |
+| **300** | **0.0929** | **0.8378** ← melhor |
+| 350 | 0.0928 | 0.8379 |
+| 400 | 0.0927 | 0.8381 |
+
+> Parada antecipada após n=400 (sem melhora de AUC-PR por 2 passos). O valor **300** apresentou o maior AUC-PR e foi o escolhido.
 
 ### XGBoost
 | Parâmetro | Valor | Justificativa |
