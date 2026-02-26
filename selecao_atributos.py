@@ -18,8 +18,10 @@ from sklearn.feature_selection import VarianceThreshold
 import warnings
 import os
 warnings.filterwarnings('ignore')
-
-CAMINHO_RESULTADO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas\\resultado_selecao_atributos.csv')
+BASE          = os.path.dirname(os.path.abspath(__file__))
+SAIDAS    = os.path.join(BASE, 'saidas')
+os.makedirs(SAIDAS, exist_ok=True)
+CAMINHO_RESULTADO = os.path.join(SAIDAS, 'resultado_selecao_atributos.csv')
 
 def selecionar(df_treino):
     """
