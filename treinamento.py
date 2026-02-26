@@ -33,7 +33,7 @@ import joblib
 import contextlib
 import warnings
 warnings.filterwarnings('ignore')
-
+import os
 from tqdm import tqdm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
@@ -90,11 +90,16 @@ class _XGBTqdmCallback(xgb.callback.TrainingCallback if XGBOOST_DISPONIVEL else 
         self.pbar.close()
         return model
 
-CAMINHO_TREINO    = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\treino_balanceado.csv'
-CAMINHO_TESTE     = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\teste.csv'
-CAMINHO_RF_MODEL  = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\modelo_rf.pkl'
-CAMINHO_XGB_MODEL = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\modelo_xgb.pkl'
-CAMINHO_RESULTADO = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\resultado_modelos.csv'
+BASE              = os.path.dirname(os.path.abspath(__file__))
+RESULTADOS        = os.path.join(BASE, 'resultados')
+SAIDAS        = os.path.join(BASE, 'saidas')
+os.makedirs(RESULTADOS, exist_ok=True)
+
+CAMINHO_TREINO    = os.path.join(RESULTADOS,       'treino_balanceado.csv')
+CAMINHO_TESTE     = os.path.join(SAIDAS,       'teste.csv')
+CAMINHO_RF_MODEL  = os.path.join(RESULTADOS,       'modelo_rf.pkl')
+CAMINHO_XGB_MODEL = os.path.join(RESULTADOS,       'modelo_xgb.pkl')
+CAMINHO_RESULTADO = os.path.join(RESULTADOS, 'resultado_modelos.csv')
 
 TARGET = 'fraud_bool'
 SEP    = "=" * 65

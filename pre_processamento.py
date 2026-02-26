@@ -14,9 +14,10 @@ e passada pelo main.py — nenhuma coluna está hardcoded aqui.
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
+import os
 
-CAMINHO_BASE  = r'F:\transacoes\base\Base.csv'
-CAMINHO_SAIDA = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias'
+CAMINHO_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base\Base.csv')
+CAMINHO_SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas')
 
 
 def carregar_e_limpar(caminho=CAMINHO_BASE):

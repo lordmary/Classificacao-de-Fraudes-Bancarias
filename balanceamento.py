@@ -17,9 +17,12 @@ Este módulo expõe uma função chamada pelo pipeline (main.py):
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 from collections import Counter
+import os
 
-CAMINHO_SAIDA = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\treino_balanceado.csv'
-
+BASE          = os.path.dirname(os.path.abspath(__file__))
+RESULTADOS    = os.path.join(BASE, 'resultados')
+os.makedirs(RESULTADOS, exist_ok=True)
+CAMINHO_SAIDA = os.path.join(RESULTADOS, 'treino_balanceado.csv')
 
 def balancear(df_treino):
     """
@@ -71,6 +74,6 @@ def balancear(df_treino):
 # ── Execução direta (sem pipeline) ──────────────────────────────────────────
 if __name__ == '__main__':
     print("AVISO: executando balanceamento isolado. Para o pipeline, use: python main.py\n")
-    CAMINHO_TREINO = r'f:\transacoes\transacoes\Classificacao-de-Fraudes-Bancarias\treino.csv'
+    CAMINHO_TREINO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas\\treino.csv')
     df_treino = pd.read_csv(CAMINHO_TREINO)
     balancear(df_treino)
