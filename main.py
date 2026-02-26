@@ -31,6 +31,7 @@ from pre_processamento import carregar_e_limpar, dividir_e_salvar
 from selecao_atributos  import selecionar
 from balanceamento       import balancear
 from treinamento         import treinar_e_avaliar
+from pos_processamento import executar as pos_processar
 
 SEP = "=" * 65
 
@@ -85,21 +86,46 @@ def main():
     print(f"  [OK] Concluído em {time.time()-t0:.1f}s")
 
     # ── Resumo final ────────────────────────────────────────────────────────
+
+    # ── ETAPA 6: Pós-processamento ──────────────────────────────────────────
+    print(f"\n{'─'*65}")
+    print("  ETAPA 6/6 — Pós-processamento (Threshold + Gráficos + SHAP)")
+    print(f"{'─'*65}")
+    t0 = time.time()
+    resultados_fase4 = pos_processar()
+    print(f"  [OK] Concluído em {time.time()-t0:.1f}s")
+
     tempo_total = time.time() - inicio_total
     print(f"\n{SEP}")
-    print("  PIPELINE COMPLETO (FASES 2 + 3) — RESUMO")
+    print("  PIPELINE COMPLETO (FASES 2 + 3 + 4) — RESUMO")
     print(SEP)
     print(f"  Colunas removidas         : {len(colunas_remover)} {colunas_remover}")
     print(f"  Colunas no modelo final   : {df_treino.shape[1]}")
     print(f"  Treino original           : {df_treino.shape[0]:,} linhas")
     print(f"  Treino balanceado (SMOTE) : {df_balanceado.shape[0]:,} linhas")
     print(f"  Teste (intacto)           : {df_teste.shape[0]:,} linhas")
+    print(f"{'─'*65}")
+    print("  MODELOS — Métricas base (threshold 0.50)")
+    print(f"{'─'*65}")
     for nome, res in resultados_modelos.items():
         print(f"  {nome:<20}: AUC-ROC={res['auc_roc']:.4f}  AUC-PR={res['auc_pr']:.4f}  F1={res['f1']:.4f}")
+    print(f"{'─'*65}")
+    print("  PÓS-PROCESSAMENTO — Métricas com threshold ótimo (Fase 4)")
+    print(f"{'─'*65}")
+    for nome, res in resultados_fase4.items():
+        print(f"  {nome:<20}: Threshold={res['threshold']:.2f} | "
+              f"AUC-ROC={res['auc_roc']:.4f} | "
+              f"AUC-PR={res['auc_pr']:.4f} | "
+              f"F1={res['f1']:.4f} | "
+              f"Recall={res['recall']:.4f} | "
+              f"Precision={res['precision']:.4f}")
+        print(f"  {'':20}  TP={res['tp']:,}  FP={res['fp']:,}  "
+              f"TN={res['tn']:,}  FN={res['fn']:,}")
+    print(f"{'─'*65}")
+    melhor_fase4 = max(resultados_fase4, key=lambda n: resultados_fase4[n]['auc_pr'])
+    print(f"  Melhor modelo (AUC-PR)    : {melhor_fase4}")
     print(f"  Tempo total               : {tempo_total/60:.1f} min")
     print(SEP)
-    print("\n  Próximo passo: Fase 4 → ajuste de threshold + SHAP (explicabilidade)")
-    print(f"{SEP}\n")
 
 
 if __name__ == '__main__':
