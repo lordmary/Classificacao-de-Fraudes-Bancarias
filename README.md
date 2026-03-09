@@ -75,6 +75,13 @@ pip install pandas numpy scikit-learn imbalanced-learn xgboost joblib tqdm matpl
 
 > `shap` é opcional. Se não estiver instalado, os gráficos SHAP são ignorados e uma mensagem de aviso é exibida.
 
+Nota para usuários Linux: Caso encontre erros na instalação do shap ou xgboost, certifique-se de ter os pacotes de build essenciais:
+
+```bash
+sudo apt update && sudo apt install build-essential python3-dev
+```
+
+sudo apt update && sudo apt install build-essential python3-dev
 ---
 
 ## Obtenção do dataset
