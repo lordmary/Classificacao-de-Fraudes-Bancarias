@@ -4,6 +4,10 @@ Trabalho Final de Mineração de Dados — Detecção de Fraudes Bancárias com 
 
 O projeto implementa um pipeline completo de aprendizado de máquina, cobrindo pré-processamento, seleção de atributos, balanceamento de classes (SMOTE), treinamento supervisionado e pós-processamento com ajuste de threshold, gráficos e análise SHAP.
 
+Link para o relatório: https://docs.google.com/document/d/1DD9ghvd8KdMPAQwmdICQVRseYXN095Sz5jzTq66XpSg/edit?usp=sharing
+
+Link para o repositório github: https://github.com/lordmary/Classificacao-de-Fraudes-Bancarias
+
 ---
 
 ## Sumário
