@@ -127,7 +127,7 @@ Classificacao-de-Fraudes-Bancarias/
 Com o ambiente ativado e o `.zip` na pasta `base/`, execute a partir da raiz do repositório:
 
 ```bash
-python main.py
+python3 main.py
 ```
 
 O pipeline completo (Fases 2, 3 e 4) roda em sequência. O tempo total varia de **15 a 40 minutos** dependendo do hardware, principalmente nas etapas de SMOTE e treinamento dos modelos.
