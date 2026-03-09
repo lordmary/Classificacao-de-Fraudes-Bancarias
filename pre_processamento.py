@@ -99,8 +99,8 @@ def dividir_e_salvar(df, serie_month, colunas_remover):
     df_treino = shuffle(df_treino, random_state=42)
 
     # 6. Salvar
-    df_treino.to_csv(rf'{CAMINHO_SAIDA}\treino.csv', index=False)
-    df_teste.to_csv(rf'{CAMINHO_SAIDA}\teste.csv',   index=False)
+    df_treino.to_csv(os.path.join(CAMINHO_SAIDA, 'treino.csv'), index=False)
+    df_teste.to_csv(os.path.join(CAMINHO_SAIDA, 'teste.csv'), index=False)
 
     print(f"[PRÉ-PROCESSAMENTO] Treino (Meses 0-5) : {df_treino.shape[0]:,} linhas")
     print(f"[PRÉ-PROCESSAMENTO] Teste  (Meses 6-7) : {df_teste.shape[0]:,} linhas")
