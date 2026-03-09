@@ -74,6 +74,6 @@ def balancear(df_treino):
 # ── Execução direta (sem pipeline) ──────────────────────────────────────────
 if __name__ == '__main__':
     print("AVISO: executando balanceamento isolado. Para o pipeline, use: python main.py\n")
-    CAMINHO_TREINO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas\\treino.csv')
+    CAMINHO_TREINO = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saidas', 'treino.csv')
     df_treino = pd.read_csv(CAMINHO_TREINO)
     balancear(df_treino)
